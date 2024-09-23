@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 
 // CORS setup
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
     credentials: true
 }));
 
@@ -36,4 +36,8 @@ app.use('/api/v1/auth', authRoute); // domain/api/v1/auth/register or /login
 app.use('/api/v1/users', userRoute); // domain/api/v1/users/delete/getsingle/update/getAll/getprofile
 app.use('/api/v1/salons', salonRoute); // domain/api/v1/salons/delete/getsingle/update/getAll/getprofile
 
+// Catch-all route for serving frontend
+app.get('*', (req, res) => {
+    res.sendFile(path.join(buildpath, 'index.html'));
+});
 export { app };
